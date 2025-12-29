@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/server.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/server.ts",
+      "headers": {
+        "Access-Control-Allow-Origin": "https://full-stack-project-edwm.vercel.app",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        "Access-Control-Allow-Credentials": "true"
+      }
+    }
+  ],
+  "env": {
+    "OPENROUTER_API_KEY": "@openrouter_api_key",
+    "JWT_SECRET": "@jwt_secret",
+    "JWT_REFRESH_SECRET": "@jwt_refresh_secret",
+    "NODE_ENV": "production"
+  }
+}
