@@ -30,3 +30,5 @@ build
 *.njsproj
 *.sln
 *.sw?
+fly.toml
+
