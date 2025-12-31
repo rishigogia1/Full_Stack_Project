@@ -12,7 +12,7 @@ export default function Register() {
     setError("");
 
     try {
-      await api.post("/auth/register", { name, email, password });
+      await api.post("/api/auth/register", { name, email, password });
       alert("Registration successful!");
       window.location.href = "/login";
     } catch (err) {
