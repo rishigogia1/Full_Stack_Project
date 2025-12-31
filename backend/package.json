@@ -1,12 +1,17 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "private": true,
   "license": "ISC",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "seed": "ts-node src/scripts/seedResources.ts"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "dependencies": {
     "@huggingface/inference": "^4.13.5",
