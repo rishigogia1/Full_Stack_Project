@@ -11,23 +11,15 @@ import connectDB from "./config/database";
 
 const app = express();
 
-/**
- * ✅ CORS – EXPLICIT & SAFE
- */
+// ✅ FIXED CORS
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:3000",
-      "https://full-stack-project-iota-nine.vercel.app",
-    ],
-    credentials: true,
+    origin: ["https://full-stack-project-iota-nine.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
-
-// 🔥 IMPORTANT: handle preflight
 app.options("*", cors());
 
 app.use(express.json());
@@ -42,7 +34,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/interview", interviewRoutes);
 
 // Health check
-app.get("/", (_req, res) => {
+app.get("/", (req, res) => {
   res.send("API is working");
 });
 
