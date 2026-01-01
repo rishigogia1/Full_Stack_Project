@@ -16,7 +16,8 @@ export default function Login() {
 
     try {
       // ✅ ONLY FIX: correct backend route
-      const res = await api.post("/api/auth/login", { email, password });
+      const res = await api.post("/auth/login", { email, password });
+
 
       localStorage.setItem("token", res.data.accessToken);
       navigate("/my-sessions");
