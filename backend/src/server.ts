@@ -11,56 +11,44 @@ import connectDB from "./config/database";
 
 const app = express();
 
-/* =========================
-   ✅ CORS CONFIG (FINAL)
-   ========================= */
+/**
+ * ✅ FINAL CORS CONFIG (THIS FIXES EVERYTHING)
+ */
 app.use(
   cors({
-    origin: "https://full-stack-project-iota-nine.vercel.app",
+    origin: "https://full-stack-project-edwm.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// ⚠️ IMPORTANT: Express 5 needs this
-app.options("*", cors());
+// ✅ Handle preflight requests explicitly
+app.options("*", cors({
+  origin: "https://full-stack-project-edwm.vercel.app",
+  credentials: true,
+}));
 
 app.use(express.json());
 
-/* =========================
-   DB CONNECT
-   ========================= */
+// DB
 (async () => {
-  try {
-    await connectDB();
-    console.log("MongoDB connected successfully");
-  } catch (err) {
-    console.error("MongoDB connection failed", err);
-    process.exit(1);
-  }
+  await connectDB();
 })();
 
-/* =========================
-   ROUTES
-   ========================= */
-app.get("/", (_req, res) => {
-  res.send("API is working");
-});
-
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/interview", interviewRoutes);
 
-/* =========================
-   ERROR HANDLER (LAST)
-   ========================= */
+// Health
+app.get("/", (_, res) => {
+  res.send("API is working");
+});
+
+// Error handler
 app.use(errorHandler);
 
-/* =========================
-   START SERVER
-   ========================= */
-const PORT = Number(process.env.PORT) || 5000;
-
-app.listen(PORT, "0.0.0.0", () => {
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
