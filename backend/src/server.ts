@@ -11,64 +11,56 @@ import connectDB from "./config/database";
 
 const app = express();
 
-/**
- * ✅ PRODUCTION-SAFE CORS CONFIG
- * Allows:
- * - Vercel production
- * - Vercel preview deployments
- * - Local development
- */
+/* =========================
+   ✅ CORS CONFIG (FINAL)
+   ========================= */
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-
-      if (
-        origin.includes("vercel.app") ||
-        origin === "http://localhost:5173" ||
-        origin === "http://localhost:3000"
-      ) {
-        return callback(null, true);
-      }
-
-      callback(new Error("Not allowed by CORS"));
-    },
+    origin: "https://full-stack-project-iota-nine.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// ✅ Explicit preflight handling (VERY IMPORTANT)
+// ⚠️ IMPORTANT: Express 5 needs this
 app.options("*", cors());
 
 app.use(express.json());
 
-// Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/interview", interviewRoutes);
+/* =========================
+   DB CONNECT
+   ========================= */
+(async () => {
+  try {
+    await connectDB();
+    console.log("MongoDB connected successfully");
+  } catch (err) {
+    console.error("MongoDB connection failed", err);
+    process.exit(1);
+  }
+})();
 
-// Health check
+/* =========================
+   ROUTES
+   ========================= */
 app.get("/", (_req, res) => {
   res.send("API is working");
 });
 
-// Error handler (LAST)
+app.use("/api/auth", authRoutes);
+app.use("/api/interview", interviewRoutes);
+
+/* =========================
+   ERROR HANDLER (LAST)
+   ========================= */
 app.use(errorHandler);
 
-// 🚀 Start server ONLY after DB connects
-const PORT = process.env.PORT || 5000;
+/* =========================
+   START SERVER
+   ========================= */
+const PORT = Number(process.env.PORT) || 5000;
 
-const startServer = async () => {
-  try {
-    await connectDB();
-    app.listen(PORT, () => {
-      console.log(`✅ Server running on port ${PORT}`);
-    });
-  } catch (err) {
-    console.error("❌ Failed to start server:", err);
-    process.exit(1);
-  }
-};
-
-startServer();
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});

@@ -2,10 +2,10 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true, // ✅ REQUIRED FOR CORS + AUTH
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // ✅ IMPORTANT
 });
 
 api.interceptors.request.use((config) => {
