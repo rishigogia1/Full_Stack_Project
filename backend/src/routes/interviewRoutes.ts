@@ -1,5 +1,5 @@
 import express from "express";
-const { body } = require("express-validator");
+import { body } from "express-validator";
 import { handleValidationErrors } from "../middleware/validation";
 import authMiddleware from "../middleware/authMiddleware";
 import {
@@ -9,7 +9,6 @@ import {
   evaluateUserAnswer,
   getAnalytics,
   getResources,
-  seedResources,
   getLeaderboards,
   getPerformancePredictions,
   createQuestionBank,
