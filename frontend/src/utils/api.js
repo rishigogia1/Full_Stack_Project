@@ -5,14 +5,17 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  withCredentials: true, // ✅ REQUIRED
+  withCredentials: false, // 🔥 IMPORTANT
 });
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  if (token) {
+
+  // ❌ DO NOT send token on login
+  if (token && !config.url.includes("/auth/login")) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
   return config;
 });
 
