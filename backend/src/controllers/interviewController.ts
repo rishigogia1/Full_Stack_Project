@@ -250,24 +250,32 @@ export const getSessionById = async (req: AuthRequest, res: Response) => {
 
 
 // ------------------------------
-// GET RESOURCES
+// GET RESOURCES (FINAL FIX)
 // ------------------------------
-export const getResources = async (req: AuthRequest, res: Response) => {
+export const getResources = async (req: Request, res: Response) => {
   try {
     const { category, type, difficulty } = req.query;
-    let query: any = {};
 
-    if (category && category !== 'all') query.category = category;
-    if (type && type !== 'all') query.type = type;
-    if (difficulty && difficulty !== 'all') query.difficulty = difficulty;
+    // 🔥 IMPORTANT: only active resources
+    let query: any = { isActive: true };
 
-    const resources = await StudyResource.find(query).sort({ createdAt: -1 });
-    res.json({ resources });
+    if (category && category !== "all") query.category = category;
+    if (type && type !== "all") query.type = type;
+    if (difficulty && difficulty !== "all") query.difficulty = difficulty;
+
+    const resources = await StudyResource.find(query).sort({
+      createdAt: -1,
+    });
+
+    return res.json({ resources });
   } catch (err: any) {
-    console.error(err);
-    return res.status(500).json({ message: err.message });
+    console.error("Failed to fetch resources:", err);
+    return res.status(500).json({
+      message: "Failed to fetch resources",
+    });
   }
 };
+
 
 // ------------------------------
 // GET LEADERBOARDS
