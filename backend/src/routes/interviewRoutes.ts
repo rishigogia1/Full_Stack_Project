@@ -9,6 +9,7 @@ import {
   evaluateUserAnswer,
   getAnalytics,
   getResources,
+  seedResources,
   getLeaderboards,
   getPerformancePredictions,
   createQuestionBank,
