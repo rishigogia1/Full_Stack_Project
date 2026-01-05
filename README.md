@@ -217,11 +217,5 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 - HuggingFace for inference services
 - React and Vite communities
 - All contributors and users
-
-## 📞 Support
-
-For support, email support@interviewprep.com or join our Discord community.
-
----
-
+- 
 **Made with ❤️ for interview preparation**
